@@ -103,3 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error('❌ Échec SW:', err));
   }
 });
+
+document.getElementById('toggle-sidebar').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
