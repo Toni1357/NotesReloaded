@@ -24,13 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ✅ Sauvegarde
+  // ✅ Sauvegarde 📋
+  document.getElementById('btn-save').textContent = '📋';
   document.getElementById('btn-save').addEventListener('click', () => {
     localStorage.setItem('noteContent', editor.innerHTML);
     alert("Note sauvegardée !");
   });
 
-  // ✅ Suppression
+  // ✅ Suppression 🗑️
+  document.getElementById('btn-delete').textContent = '🗑️';
   document.getElementById('btn-delete').addEventListener('click', () => {
     if (confirm("Supprimer cette note ?")) {
       editor.innerHTML = '';
@@ -38,7 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // ✅ Exportation
+  // ✅ Exportation 📤
+  document.getElementById('btn-export').textContent = '📤';
   document.getElementById('btn-export').addEventListener('click', () => {
     const content = editor.innerText;
     const blob = new Blob([content], { type: 'text/plain' });
@@ -86,10 +89,12 @@ document.addEventListener('DOMContentLoaded', () => {
     alert(locked ? "Note verrouillée 🔒" : "Note déverrouillée 🔓");
   });
 
-  // ✅ Sidebar toggle
+  // ✅ Sidebar togglable ☰
   const sidebar = document.getElementById('sidebar');
   const toggleSidebar = document.getElementById('toggle-sidebar');
+  toggleSidebar.textContent = '☰';
   toggleSidebar.addEventListener('click', () => {
     sidebar.classList.toggle('open');
   });
 });
+
