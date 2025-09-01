@@ -57,4 +57,12 @@ document.getElementById('btn-darkmode').addEventListener('click', () => {
   document.body.classList.toggle('dark');
 });
 
+document.getElementById('btn-export').addEventListener('click', () => {
+  const content = editor.innerHTML;
+  navigator.clipboard.writeText(content).then(() => {
+    alert("Note copiée dans le presse-papiers 📋");
+  });
+});
+
+
 
