@@ -1,10 +1,131 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { display: flex; flex-direction: column; height: 100vh; font-family: sans-serif; }
-header { padding: 0.5rem; background: #333; color: #fff; display: flex; gap: 1rem; }
-aside { width: 200px; background: #f4f4f4; overflow-y: auto; }
-main { flex: 1; display: flex; }
-#notesList { width: 200px; border-right: 1px solid #ccc; overflow-y: auto; }
-#editor { flex: 1; padding: 1rem; position: relative; }
-#toolbar { display: flex; gap: 0.5rem; margin-bottom: 0.5rem; }
-#noteContent { min-height: 200px; border: 1px solid #ccc; padding: 0.5rem; }
-#drawCanvas { position: absolute; top: 3rem; left: 1rem; right: 1rem; bottom: 3rem; display: none; }
+/* Variables globales */
+:root {
+  --font: 'Inter', sans-serif;
+  --clr-bg: #fafafa;
+  --clr-panel: #ffffff;
+  --clr-text: #1f2937;
+  --clr-accent: #3b82f6;
+  --radius: 8px;
+  --gap: 1rem;
+  --transition: 0.2s;
+}
+
+/* Reset & layout de base */
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: var(--font);
+  color: var(--clr-text);
+  background: var(--clr-bg);
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 80px;
+  background: var(--clr-panel);
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: width var(--transition);
+}
+.sidebar:hover { width: 240px; }
+
+/* Topbar */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  padding: var(--gap);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+/* Content area */
+.content {
+  display: flex;
+  flex:1;
+  overflow: hidden;
+}
+
+/* Liste de notes */
+.notes-list {
+  width: 300px;
+  border-right: 1px solid #e5e7eb;
+  overflow-y: auto;
+  transition: transform var(--transition);
+}
+@media (max-width: 800px) {
+  .notes-list { position: absolute; z-index:10; transform: translateX(-100%); }
+  .notes-list.open { transform: translateX(0); }
+}
+
+/* Éditeur */
+.editor {
+  flex:1;
+  display: flex;
+  flex-direction: column;
+}
+.editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: var(--gap);
+  background: var(--clr-panel);
+  border-bottom: 1px solid #e5e7eb;
+}
+.editor-toolbar button,
+.editor-toolbar select {
+  background: var(--clr-bg);
+  border: 1px solid #d1d5db;
+  border-radius: var(--radius);
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.editor-toolbar button:hover,
+.editor-toolbar select:focus {
+  background: var(--clr-accent);
+  color: #fff;
+}
+
+/* Zone éditable */
+.editor-area {
+  flex:1;
+  padding: var(--gap);
+  overflow-y: auto;
+}
+.editor-area:empty:before {
+  content: attr(data-placeholder);
+  color: #9ca3af;
+}
+
+/* Canvas de dessin */
+.draw-canvas {
+  display: none;
+  position: absolute;
+  top: 64px;
+  left: 300px;
+  right: var(--gap);
+  bottom: var(--gap);
+  border:1px solid #d1d5db;
+  border-radius: var(--radius);
+  background: #fff;
+}
+
+/* Boutons principaux */
+.btn-primary {
+  background: var(--clr-accent);
+  color: #fff;
+}
+.btn-success {
+  background: #10b981;
+  color: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .topbar { flex-wrap: wrap; }
+  .editor-toolbar { justify-content: center; }
+}
