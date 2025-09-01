@@ -1,4 +1,4 @@
-const CACHE_NAME = 'note-app-v1';
+const CACHE_NAME = 'notes-reloaded-v1';
 const ASSETS = [
   '/',
   '/index.html',
@@ -34,14 +34,17 @@ self.addEventListener('fetch', event => {
     caches.match(event.request).then(cached => {
       return cached || fetch(event.request).then(response => {
         return caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, response.clone());
+          if (event.request.url.startsWith(location.origin)) {
+            cache.put(event.request, response.clone());
+          }
           return response;
         });
       }).catch(() => {
         if (event.request.destination === 'document') {
           return caches.match('/offline.html');
         }
+        return new Response('Contenu non disponible hors ligne.', {
+          status: 503,
+          statusText: 'Service Unavailable'
+        });
       });
-    })
-  );
-});
