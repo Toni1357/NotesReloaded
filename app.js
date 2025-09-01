@@ -43,3 +43,18 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error('❌ Échec SW:', err));
   }
 });
+
+let locked = false;
+document.getElementById('btn-lock').addEventListener('click', () => {
+  const pwd = prompt("Entrez un mot de passe pour verrouiller/déverrouiller");
+  if (!pwd) return;
+  locked = !locked;
+  editor.contentEditable = !locked;
+  alert(locked ? "Note verrouillée 🔒" : "Note déverrouillée 🔓");
+});
+
+document.getElementById('btn-darkmode').addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+});
+
+
