@@ -11,19 +11,23 @@
 </head>
 <body>
   <header>
+  <div class="header-left">
+    <button id="toggle-sidebar" title="Afficher la sidebar">☰</button>
     <h1>📝 Notes Reloaded</h1>
-    <div class="header-actions">
-      <button id="btn-lock">🔒</button>
-      <div id="status-indicator">🟢 En ligne</div>
-      <button id="toggle-sidebar" title="Afficher la sidebar">☰</button>
-    </div>
-  </header>
+  </div>
+  <div class="header-actions">
+    <button id="btn-lock">🔒</button>
+    <div id="status-indicator">🟢 En ligne</div>
+  </div>
+</header>
 
-  <aside id="sidebar">
-    <button id="toggle-sidebar">📂</button>
-    <ul id="note-list"></ul>
-    <button id="btn-new-note">🆕 Nouvelle note</button>
-  </aside>
+<aside id="sidebar">
+  <ul id="note-list"></ul>
+  <button id="btn-new-note">🆕 Nouvelle note</button>
+</aside>
+
+<div id="backdrop"></div>
+
 
   <nav class="toolbar">
     <button data-cmd="bold"><a style="font-weight:bold;">Gras</a></button>
