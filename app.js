@@ -2,11 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const editor = document.getElementById('editor');
   const status = document.getElementById('status-indicator');
 
-  // Mise en forme
+  // Formatage
   document.querySelectorAll('[data-cmd]').forEach(button => {
     button.addEventListener('click', () => {
       const cmd = button.getAttribute('data-cmd');
-      document.execCommand(cmd, false, null);
+      const value = button.getAttribute('data-value') || null;
+      document.execCommand(cmd, false, value);
       editor.focus();
     });
   });
@@ -18,15 +19,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Sauvegarde manuelle
+  // Sauvegarde
   document.getElementById('btn-save').addEventListener('click', () => {
     localStorage.setItem('noteContent', editor.innerHTML);
     alert("Note sauvegardée !");
   });
 
+  // Suppression
+  document.getElementById('btn-delete').addEventListener('click', () => {
+    if (confirm("Supprimer la note actuelle ?")) {
+      editor.innerHTML = '';
+      localStorage.removeItem('noteContent');
+      alert("Note supprimée.");
+    }
+  });
+
+  // Exportation
+  document.getElementById('btn-export').addEventListener('click', () => {
+    navigator.clipboard.writeText(editor.innerText).then(() => {
+      alert("Note copiée dans le presse-papiers 📋");
+    });
+  });
+
+  // Mode sombre
+  document.getElementById('btn-darkmode').addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+  });
+
+  // Verrouillage
+  let locked = false;
+  document.getElementById('btn-lock').addEventListener('click', () => {
+    const pwd = prompt("Mot de passe pour verrouiller/déverrouiller");
+    if (!pwd) return;
+    locked = !locked;
+    editor.contentEditable = !locked;
+    alert(locked ? "Note verrouillée 🔒" : "Note déverrouillée 🔓");
+  });
+
   // Restauration
   const saved = localStorage.getItem('noteContent');
   if (saved) editor.innerHTML = saved;
+
+  // Sauvegarde automatique
+  setInterval(() => {
+    localStorage.setItem('noteContent', editor.innerHTML);
+  }, 30000);
 
   // Indicateur de connexion
   function updateStatus() {
@@ -43,26 +80,3 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(err => console.error('❌ Échec SW:', err));
   }
 });
-
-let locked = false;
-document.getElementById('btn-lock').addEventListener('click', () => {
-  const pwd = prompt("Entrez un mot de passe pour verrouiller/déverrouiller");
-  if (!pwd) return;
-  locked = !locked;
-  editor.contentEditable = !locked;
-  alert(locked ? "Note verrouillée 🔒" : "Note déverrouillée 🔓");
-});
-
-document.getElementById('btn-darkmode').addEventListener('click', () => {
-  document.body.classList.toggle('dark');
-});
-
-document.getElementById('btn-export').addEventListener('click', () => {
-  const content = editor.innerHTML;
-  navigator.clipboard.writeText(content).then(() => {
-    alert("Note copiée dans le presse-papiers 📋");
-  });
-});
-
-
-
