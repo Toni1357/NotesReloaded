@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const editor = document.getElementById('editor');
+  const status = document.getElementById('status-indicator');
 
   // Mise en forme
   document.querySelectorAll('[data-cmd]').forEach(button => {
@@ -17,16 +18,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Sauvegarde automatique
-  setInterval(() => {
+  // Sauvegarde manuelle
+  document.getElementById('btn-save').addEventListener('click', () => {
     localStorage.setItem('noteContent', editor.innerHTML);
-  }, 5000);
+    alert("Note sauvegardée !");
+  });
 
   // Restauration
   const saved = localStorage.getItem('noteContent');
   if (saved) editor.innerHTML = saved;
 
-  // Enregistrement du Service Worker
+  // Indicateur de connexion
+  function updateStatus() {
+    status.textContent = navigator.onLine ? '🟢 En ligne' : '🔴 Hors ligne';
+  }
+  window.addEventListener('online', updateStatus);
+  window.addEventListener('offline', updateStatus);
+  updateStatus();
+
+  // Service Worker
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js')
       .then(() => console.log('✅ Service Worker enregistré'))

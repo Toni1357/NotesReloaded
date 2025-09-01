@@ -1,85 +1,34 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Notes Pro</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <script defer src="app.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Notes Reloaded</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="favicon.ico" />
+  <meta name="theme-color" content="#2c3e50" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <header>
+    <h1>📝 Notes Reloaded</h1>
+    <div id="status-indicator">🟢 En ligne</div>
+  </header>
 
-  <!-- Sidebar principale -->
-  <aside class="sidebar">
-    <header class="sidebar-header">
-      <h1>Notes Pro</h1>
-      <button id="btn-new-category" title="Nouvelle catégorie">+</button>
-    </header>
-    <nav id="nav-categories" class="categories"></nav>
-    <footer class="sidebar-footer">
-      <button id="toggle-theme" title="Changer de thème">🌓</button>
-      <button id="settings-btn" title="Paramètres">⚙️</button>
-    </footer>
-  </aside>
+  <div class="toolbar">
+    <button data-cmd="bold">Gras</button>
+    <button data-cmd="italic">Italique</button>
+    <button data-cmd="underline">Souligné</button>
+    <button id="btn-new-note">Nouvelle note</button>
+    <button id="btn-save">💾 Sauvegarder</button>
+  </div>
 
-  <!-- Zone principale -->
-  <main class="main-area">
+  <div id="editor" contenteditable="true" spellcheck="true"></div>
 
-    <!-- Topbar : actions globales -->
-    <header class="topbar">
-      <button id="btn-new-note" class="btn-primary">Nouvelle note</button>
-      <input id="search-input" type="search" placeholder="Rechercher…">
-      <button id="view-calendar" title="Vue calendrier">📅</button>
-      <button id="view-mindmap" title="Vue mindmap">🧠</button>
-    </header>
+  <footer>
+    <p>Notes Reloaded PWA – Toni's Studios © 2025</p>
+  </footer>
 
-    <!-- Contenu réparti en liste de notes et éditeur -->
-    <section class="content">
-
-      <!-- Liste rétractable -->
-      <aside id="notes-list" class="notes-list"></aside>
-
-      <!-- Éditeur riche -->
-      <article class="editor">
-        <div class="editor-toolbar">
-          <!-- text formatting -->
-          <button data-cmd="bold">B</button>
-          <button data-cmd="italic">I</button>
-          <button data-cmd="underline">U</button>
-          <select id="heading-level">
-            <option value="">Normal</option>
-            <option value="h1">Titre 1</option>
-            <option value="h2">Titre 2</option>
-          </select>
-
-          <!-- extras -->
-          <button data-cmd="insert-todo">☐ Todo</button>
-          <button data-cmd="insert-table">⧉ Tableau</button>
-          <button data-cmd="insert-code">{"{}"} Code</button>
-          <button data-cmd="insert-math">∑ Math</button>
-          <button id="btn-attach">📎</button>
-          <button id="btn-voice">🎤</button>
-          <button id="btn-draw">✏️</button>
-          <select id="font-picker">
-            <option value="Inter">Inter</option>
-            <option value="Roboto">Roboto</option>
-          </select>
-          <button id="btn-save" class="btn-success">Enregistrer</button>
-        </div>
-
-        <div id="editor-area" contenteditable="true" class="editor-area"
-             data-placeholder="Commencez à écrire ou glissez un fichier…"></div>
-
-        <!-- Canvas de dessin -->
-        <canvas id="draw-canvas" class="draw-canvas"></canvas>
-      </article>
-
-    </section>
-  </main>
-
-  <!-- Modal paramètres / templates / partage -->
-  <div id="modal-container"></div>
-
+  <script src="app.js"></script>
 </body>
 </html>
