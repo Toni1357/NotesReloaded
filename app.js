@@ -1,76 +1,79 @@
-// Sidebar toggle
-const sidebarToggle = document.getElementById('sidebar-toggle');
-const sidebar = document.getElementById('sidebar');
-const backdrop = document.getElementById('backdrop');
+// Sélection des éléments
+const editor = document.getElementById("editor");
+const toolbarButtons = document.querySelectorAll(".toolbar button[data-cmd]");
+const headingSelect = document.getElementById("heading-select");
+const btnSave = document.getElementById("btn-save");
+const btnDelete = document.getElementById("btn-delete");
+const btnExport = document.getElementById("btn-export");
+const statusIndicator = document.getElementById("status-indicator");
 
-function openSidebar() {
-  document.body.classList.add('sidebar-open');
-  sidebar.setAttribute('aria-hidden', 'false');
-  sidebarToggle.setAttribute('aria-expanded', 'true');
-}
-function closeSidebar() {
-  document.body.classList.remove('sidebar-open');
-  sidebar.setAttribute('aria-hidden', 'true');
-  sidebarToggle.setAttribute('aria-expanded', 'false');
-}
-sidebarToggle.addEventListener('click', () => {
-  document.body.classList.contains('sidebar-open') ? closeSidebar() : openSidebar();
-});
-backdrop.addEventListener('click', closeSidebar);
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeSidebar();
+// ✅ Mise en forme (gras, italique, etc.)
+toolbarButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    const cmd = button.getAttribute("data-cmd");
+    const value = button.getAttribute("data-value") || null;
+    document.execCommand(cmd, false, value);
+    editor.focus();
+  });
 });
 
-// Mise en forme
-document.querySelector('.format-toolbar').addEventListener('click', (e) => {
-  const btn = e.target.closest('button[data-cmd]');
-  if (!btn) return;
-  const cmd = btn.dataset.cmd;
-  applyFormatSmart(cmd);
-});
-
-function applyFormatSmart(cmd) {
-  const link = getLinkInSelection();
-  if (link) {
-    wrapNodeWithFormat(link, cmd);
-  } else {
-    document.execCommand(cmd, false, null);
+// ✅ Format de titre (H1, H2, H3)
+headingSelect.addEventListener("change", () => {
+  const value = headingSelect.value;
+  if (value) {
+    document.execCommand("formatBlock", false, value);
+    editor.focus();
   }
-}
-
-function getLinkInSelection() {
-  const sel = window.getSelection();
-  if (!sel || sel.rangeCount === 0) return null;
-  let node = sel.anchorNode;
-  if (!node) return null;
-  if (node.nodeType === Node.TEXT_NODE) node = node.parentNode;
-  return node ? node.closest('a') : null;
-}
-
-function wrapNodeWithFormat(link, cmd) {
-  const tagMap = { bold: 'strong', italic: 'em', underline: 'u' };
-  const tag = tagMap[cmd];
-  if (!tag) return;
-
-  const existingWrapper = link.closest(tag);
-  if (existingWrapper && existingWrapper.contains(link)) {
-    const parent = existingWrapper.parentNode;
-    while (existingWrapper.firstChild) {
-      parent.insertBefore(existingWrapper.firstChild, existingWrapper);
-    }
-    parent.removeChild(existingWrapper);
-    return;
-  }
-
-  const wrapper = document.createElement(tag);
-  link.parentNode.insertBefore(wrapper, link);
-  wrapper.appendChild(link);
-}
-
-// Insertion de titre
-document.getElementById('heading-level').addEventListener('change', (e) => {
-  const level = e.target.value;
-  insertHeadingAtSelection(level);
 });
 
-function insertHeading
+// ✅ Sauvegarde locale
+btnSave.addEventListener("click", () => {
+  const content = editor.innerHTML;
+  localStorage.setItem("note-content", content);
+  alert("Note sauvegardée !");
+});
+
+// ✅ Suppression
+btnDelete.addEventListener("click", () => {
+  if (confirm("Supprimer cette note ?")) {
+    editor.innerHTML = "";
+    localStorage.removeItem("note-content");
+  }
+});
+
+// ✅ Export en fichier texte
+btnExport.addEventListener("click", () => {
+  const content = editor.innerText;
+  const blob = new Blob([content], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "note.txt";
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// ✅ Chargement de la note sauvegardée
+window.addEventListener("load", () => {
+  const saved = localStorage.getItem("note-content");
+  if (saved) {
+    editor.innerHTML = saved;
+  }
+});
+
+// ✅ Indicateur de connexion (mode hors ligne)
+function updateOnlineStatus() {
+  statusIndicator.textContent = navigator.onLine ? "🟢 En ligne" : "🔴 Hors ligne";
+}
+window.addEventListener("online", updateOnlineStatus);
+window.addEventListener("offline", updateOnlineStatus);
+updateOnlineStatus();
+
+// ✅ Service Worker pour PWA
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js").then(() => {
+    console.log("✅ Service Worker enregistré");
+  }).catch(err => {
+    console.error("❌ Service Worker erreur :", err);
+  });
+}
