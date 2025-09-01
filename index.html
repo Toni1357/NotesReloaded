@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+  <title>Notes PWA</title>
+</head>
+<body>
+  <header>
+    <h1>Mes Notes</h1>
+    <button id="addNote">Nouvelle note</button>
+    <button id="addCategory">Nouvelle catégorie</button>
+  </header>
+  <aside id="categories"></aside>
+  <main>
+    <div id="notesList"></div>
+    <section id="editor">
+      <div id="toolbar">
+        <select id="fontSize"><option>12px</option><option>16px</option><option>20px</option></select>
+        <input type="color" id="fontColor">
+        <button data-cmd="bold">B</button>
+        <button data-cmd="italic">I</button>
+        <button data-cmd="underline">U</button>
+        <button id="drawMode">✏️ Dessin</button>
+      </div>
+      <div id="noteContent" contenteditable="true"></div>
+      <canvas id="drawCanvas"></canvas>
+      <button id="saveNote">Sauvegarder</button>
+    </section>
+  </main>
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+</body>
+</html>
