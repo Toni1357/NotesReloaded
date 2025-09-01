@@ -90,11 +90,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ✅ Sidebar togglable ☰
-  const sidebar = document.getElementById('sidebar');
-  const toggleSidebar = document.getElementById('toggle-sidebar');
-  toggleSidebar.textContent = '☰';
-  toggleSidebar.addEventListener('click', () => {
-    sidebar.classList.toggle('open');
-  });
+const toggleSidebar = document.getElementById('toggle-sidebar');
+const backdrop = document.getElementById('backdrop');
+
+toggleSidebar.addEventListener('click', () => {
+  document.body.classList.toggle('sidebar-open');
 });
+
+backdrop.addEventListener('click', () => {
+  document.body.classList.remove('sidebar-open');
+});
+
 
