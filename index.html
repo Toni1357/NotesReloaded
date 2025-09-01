@@ -2,39 +2,84 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <link rel="manifest" href="manifest.json">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Notes Pro</title>
   <link rel="stylesheet" href="style.css">
-  <title>Notes PWA</title>
+  <link rel="manifest" href="manifest.json">
+  <script defer src="app.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Mes Notes</h1>
-    <button id="addNote">Nouvelle note</button>
-    <button id="addCategory">Nouvelle catégorie</button>
-  </header>
-  <aside id="categories"></aside>
-  <main>
-    <div id="notesList"></div>
-    <section id="editor">
-      <div id="toolbar">
-        <select id="fontSize"><option>12px</option><option>16px</option><option>20px</option></select>
-        <input type="color" id="fontColor">
-        <button data-cmd="bold">B</button>
-        <button data-cmd="italic">I</button>
-        <button data-cmd="underline">U</button>
-        <button id="drawMode">✏️ Dessin</button>
-      </div>
-      <div id="noteContent" contenteditable="true"></div>
-      <canvas id="drawCanvas"></canvas>
-      <button id="saveNote">Sauvegarder</button>
+
+  <!-- Sidebar principale -->
+  <aside class="sidebar">
+    <header class="sidebar-header">
+      <h1>Notes Pro</h1>
+      <button id="btn-new-category" title="Nouvelle catégorie">+</button>
+    </header>
+    <nav id="nav-categories" class="categories"></nav>
+    <footer class="sidebar-footer">
+      <button id="toggle-theme" title="Changer de thème">🌓</button>
+      <button id="settings-btn" title="Paramètres">⚙️</button>
+    </footer>
+  </aside>
+
+  <!-- Zone principale -->
+  <main class="main-area">
+
+    <!-- Topbar : actions globales -->
+    <header class="topbar">
+      <button id="btn-new-note" class="btn-primary">Nouvelle note</button>
+      <input id="search-input" type="search" placeholder="Rechercher…">
+      <button id="view-calendar" title="Vue calendrier">📅</button>
+      <button id="view-mindmap" title="Vue mindmap">🧠</button>
+    </header>
+
+    <!-- Contenu réparti en liste de notes et éditeur -->
+    <section class="content">
+
+      <!-- Liste rétractable -->
+      <aside id="notes-list" class="notes-list"></aside>
+
+      <!-- Éditeur riche -->
+      <article class="editor">
+        <div class="editor-toolbar">
+          <!-- text formatting -->
+          <button data-cmd="bold">B</button>
+          <button data-cmd="italic">I</button>
+          <button data-cmd="underline">U</button>
+          <select id="heading-level">
+            <option value="">Normal</option>
+            <option value="h1">Titre 1</option>
+            <option value="h2">Titre 2</option>
+          </select>
+
+          <!-- extras -->
+          <button data-cmd="insert-todo">☐ Todo</button>
+          <button data-cmd="insert-table">⧉ Tableau</button>
+          <button data-cmd="insert-code">{"{}"} Code</button>
+          <button data-cmd="insert-math">∑ Math</button>
+          <button id="btn-attach">📎</button>
+          <button id="btn-voice">🎤</button>
+          <button id="btn-draw">✏️</button>
+          <select id="font-picker">
+            <option value="Inter">Inter</option>
+            <option value="Roboto">Roboto</option>
+          </select>
+          <button id="btn-save" class="btn-success">Enregistrer</button>
+        </div>
+
+        <div id="editor-area" contenteditable="true" class="editor-area"
+             data-placeholder="Commencez à écrire ou glissez un fichier…"></div>
+
+        <!-- Canvas de dessin -->
+        <canvas id="draw-canvas" class="draw-canvas"></canvas>
+      </article>
+
     </section>
   </main>
-  <script src="app.js"></script>
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
-    }
-  </script>
+
+  <!-- Modal paramètres / templates / partage -->
+  <div id="modal-container"></div>
+
 </body>
 </html>
