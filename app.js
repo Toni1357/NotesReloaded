@@ -44,4 +44,33 @@ function getLinkInSelection() {
   let node = sel.anchorNode;
   if (!node) return null;
   if (node.nodeType === Node.TEXT_NODE) node = node.parentNode;
-  return node ? node.closest('a') :
+  return node ? node.closest('a') : null;
+}
+
+function wrapNodeWithFormat(link, cmd) {
+  const tagMap = { bold: 'strong', italic: 'em', underline: 'u' };
+  const tag = tagMap[cmd];
+  if (!tag) return;
+
+  const existingWrapper = link.closest(tag);
+  if (existingWrapper && existingWrapper.contains(link)) {
+    const parent = existingWrapper.parentNode;
+    while (existingWrapper.firstChild) {
+      parent.insertBefore(existingWrapper.firstChild, existingWrapper);
+    }
+    parent.removeChild(existingWrapper);
+    return;
+  }
+
+  const wrapper = document.createElement(tag);
+  link.parentNode.insertBefore(wrapper, link);
+  wrapper.appendChild(link);
+}
+
+// Insertion de titre
+document.getElementById('heading-level').addEventListener('change', (e) => {
+  const level = e.target.value;
+  insertHeadingAtSelection(level);
+});
+
+function insertHeading
