@@ -4,38 +4,46 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Notes Reloaded</title>
+  <meta name="theme-color" content="#2c3e50" />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" href="favicon.ico" />
-  <meta name="theme-color" content="#2c3e50" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <h1>📝 Notes Reloaded</h1>
-    <div id="status-indicator">🟢 En ligne</div>
+    <div class="header-actions">
+      <button id="btn-darkmode">🌙</button>
+      <button id="btn-lock">🔒</button>
+      <div id="status-indicator">🟢 En ligne</div>
+    </div>
   </header>
 
-  <nav class="toolbar" role="toolbar" aria-label="Outils de formatage">
-  <button data-cmd="bold">🅱️ Gras</button>
-  <button data-cmd="italic">👁️ Italique</button>
-  <button data-cmd="underline">🔽 Souligné</button>
-  <button data-cmd="insertUnorderedList">📋 Liste</button>
-  <button data-cmd="formatBlock" data-value="h1">🔠 Titre</button>
-  <button id="btn-new-note">🆕 Nouvelle</button>
-  <button id="btn-save">💾 Sauver</button>
-  <button id="btn-delete">🗑️ Supprimer</button>
-  <button id="btn-export">📤 Exporter</button>
-  <button id="btn-darkmode">🌙 Mode sombre</button>
-  <button id="btn-lock">🔒 Verrouiller</button>
-</nav>
+  <aside id="sidebar">
+    <button id="toggle-sidebar">📂</button>
+    <ul id="note-list"></ul>
+    <button id="btn-new-note">🆕 Nouvelle note</button>
+  </aside>
 
+  <nav class="toolbar">
+    <button data-cmd="bold">🅱️</button>
+    <button data-cmd="italic">👁️</button>
+    <button data-cmd="underline">🔽</button>
+    <button data-cmd="insertUnorderedList">📋</button>
+    <button data-cmd="formatBlock" data-value="h1">🔠</button>
+    <button id="btn-save">💾</button>
+    <button id="btn-delete">🗑️</button>
+    <button id="btn-export">📤</button>
+  </nav>
 
-  <div id="editor" contenteditable="true" spellcheck="true"></div>
+  <main>
+    <div id="editor" contenteditable="true" spellcheck="true"></div>
+  </main>
 
   <footer>
     <p>Notes Reloaded PWA – Toni's Studios © 2025</p>
   </footer>
 
-  <script src="app.js"></script>
+  <script src="app.js" defer></script>
 </body>
 </html>
