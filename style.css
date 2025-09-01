@@ -9,6 +9,16 @@ body {
   min-height: 100vh;
 }
 
+body.dark {
+  background: #2c3e50;
+  color: #ecf0f1;
+}
+body.dark #editor {
+  background: #34495e;
+  color: white;
+}
+
+
 header {
   background: #2c3e50;
   color: white;
