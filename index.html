@@ -15,13 +15,20 @@
     <div id="status-indicator">🟢 En ligne</div>
   </header>
 
-  <div class="toolbar">
-    <button data-cmd="bold">Gras</button>
-    <button data-cmd="italic">Italique</button>
-    <button data-cmd="underline">Souligné</button>
-    <button id="btn-new-note">Nouvelle note</button>
-    <button id="btn-save">💾 Sauvegarder</button>
-  </div>
+  <nav class="toolbar" role="toolbar" aria-label="Outils de formatage">
+  <button data-cmd="bold">🅱️ Gras</button>
+  <button data-cmd="italic">👁️ Italique</button>
+  <button data-cmd="underline">🔽 Souligné</button>
+  <button data-cmd="insertUnorderedList">📋 Liste</button>
+  <button data-cmd="formatBlock" data-value="h1">🔠 Titre</button>
+  <button id="btn-new-note">🆕 Nouvelle</button>
+  <button id="btn-save">💾 Sauver</button>
+  <button id="btn-delete">🗑️ Supprimer</button>
+  <button id="btn-export">📤 Exporter</button>
+  <button id="btn-darkmode">🌙 Mode sombre</button>
+  <button id="btn-lock">🔒 Verrouiller</button>
+</nav>
+
 
   <div id="editor" contenteditable="true" spellcheck="true"></div>
 
